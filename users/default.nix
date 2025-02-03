@@ -3,6 +3,11 @@
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
+
+  imports = [
+    ./apps/tmux.nix
+  ];
+
   home.username = "r3z";
   home.homeDirectory = "/home/r3z";
 
