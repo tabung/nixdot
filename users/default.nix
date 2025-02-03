@@ -9,6 +9,7 @@
   home.stateVersion = "24.11"; # Please read the comment before changing.
   
   home.packages = with pkgs;[
+    gnome-tweaks
     tela-circle-icon-theme
     gnomeExtensions.blur-my-shell
     gnomeExtensions.dash-to-dock  
@@ -20,14 +21,6 @@
     enable = true;
     userEmail = "yurandarezky@atmaluhur.ac.id";
     userName = "Rezky Yuranda";
-  };
-
-  gtk = {
-    enable = true;
-    iconTeheme = {
-      package = pkgs.tela-circle-icon-theme;
-      name = "Tela-circle-icon-theme";
-    };
   };
 
   # Dconf
