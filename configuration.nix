@@ -1,5 +1,5 @@
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, pkgsUnstable, ... }:
 
 {
   imports =
@@ -21,6 +21,12 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
+ 
+  # this allows you to access `pkgsUnstable` anywhere in your config
+  _module.args.pkgsUnstable = import inputs.nixpkgs-unstable {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    inherit (config.nixpkgs) config;
+  };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -127,18 +133,20 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     wget
     vim
     git
-    android-studio
-    jetbrains.phpstorm
-    jetbrains.jdk
-    jetbrains.goland
-    jetbrains.datagrip
     jetbrains-mono
+    pkgsUnstable.android-studio
+    pkgsUnstable.jetbrains.phpstorm
+    pkgsUnstable.jetbrains.jdk
+    pkgsUnstable.jetbrains.goland
+    pkgsUnstable.jetbrains.datagrip
   ];
+
 
   system.stateVersion = "24.11"; # Did you read the comment?
   nix.settings.experimental-features = ["nix-command" "flakes"];
