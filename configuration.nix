@@ -132,6 +132,12 @@
     wget
     vim
     git
+    android-studio
+    jetbrains.phpstorm
+    jetbrains.jdk
+    jetbrains.goland
+    jetbrains.datagrip
+    jetbrains-mono
   ];
 
   system.stateVersion = "24.11"; # Did you read the comment?
