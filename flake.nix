@@ -21,7 +21,7 @@
     };
 
     homeConfigurations = {
-      tabun = home-manager.lib.homeManagerConfiguration {
+      r3z = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./users/default.nix ];
       };
