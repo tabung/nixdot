@@ -5,7 +5,7 @@
   # manage.
 
   imports = [
-    ./apps/tmux.nix
+    ./apps/zsh.nix
   ];
 
   home.username = "r3z";

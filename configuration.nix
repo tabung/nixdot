@@ -106,11 +106,14 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  # Sudo no password
+  security.sudo.wheelNeedsPassword = false;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.r3z = {
     isNormalUser = true;
     description = "Rezky Yuranda";
-    shell = "pkgs.zsh";
+    shell = pkgs.zsh;
     extraGroups = ["audio" "video" "disk" "networkmanager" "wheel" ];
     packages = with pkgs; [
     #  thunderbird

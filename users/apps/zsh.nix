@@ -24,7 +24,7 @@ in
     oh-my-zsh = {
       enable = true;
       plugins = [ "git" ];
-      theme = "agnoster";
+      theme = "steeef";
     };
   };
 }
