@@ -14,6 +14,7 @@
   home.stateVersion = "24.11"; # Please read the comment before changing.
   
   home.packages = with pkgs;[
+    remmina
     gnome-tweaks
     tela-circle-icon-theme
     gnomeExtensions.blur-my-shell
