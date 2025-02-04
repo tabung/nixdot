@@ -7,6 +7,8 @@
   imports = [
     ./apps/zsh.nix
   ];
+  
+  nixpkgs.config.allowUnfree = true;
 
   home.username = "r3z";
   home.homeDirectory = "/home/r3z";
@@ -15,6 +17,7 @@
   
   home.packages = with pkgs;[
     remmina
+    obsidian
     aria2
     gnome-tweaks
     tela-circle-icon-theme
@@ -45,7 +48,7 @@
     settings = {
       "org/gnome/desktop/interface".color-scheme = "prefer-dark";
       "org/gnome/mutter" = {
-        experimental-features = [ "scale-monitor-framebuffer" ];
+        experimental-features = [ "scale-monitor-framebuffer"  "xwayland-native-scaling" ];
       };
       "org/gnome/shell" = {
         disable-user-extensions = false;

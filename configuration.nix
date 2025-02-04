@@ -133,10 +133,18 @@
   # Install Apps
   programs.firefox.enable = true;
   programs.zsh.enable = true;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Wayland
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
@@ -150,6 +158,7 @@
     hunspell
     hunspellDicts.en_US
     zotero
+    telegram-desktop
     pkgs.temurin-jre-bin-17
     pkgsUnstable.android-studio
     pkgsUnstable.jetbrains.phpstorm
