@@ -15,7 +15,7 @@
   
   home.packages = with pkgs;[
     remmina
-    aria2c
+    aria2
     gnome-tweaks
     tela-circle-icon-theme
     gnomeExtensions.blur-my-shell

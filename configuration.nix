@@ -10,11 +10,15 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = [ "ntfs" ];
 
   networking.hostName = "nixos"; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  # Wiregurad
+  networking.wireguard.enable = true;
 
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
@@ -139,7 +143,14 @@
     wget
     vim
     git
+    go
+    nodejs
     jetbrains-mono
+    libreoffice
+    hunspell
+    hunspellDicts.en_US
+    zotero
+    pkgs.temurin-jre-bin-17
     pkgsUnstable.android-studio
     pkgsUnstable.jetbrains.phpstorm
     pkgsUnstable.jetbrains.jdk
