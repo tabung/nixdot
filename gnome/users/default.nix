@@ -19,6 +19,12 @@
     remmina
     obsidian
     aria2
+    gnome-tweaks
+    tela-circle-icon-theme
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.dash-to-dock  
+    gnomeExtensions.vitals
+    gnomeExtensions.caffeine
   ];
 
   programs.git = {
@@ -34,6 +40,26 @@
       obs-backgroundremoval
       obs-pipewire-audio-capture
     ];
+  };
+
+  # Dconf
+  dconf = {
+    enable = true;
+    settings = {
+      "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+      "org/gnome/mutter" = {
+        experimental-features = [ "scale-monitor-framebuffer"  "xwayland-native-scaling" ];
+      };
+      "org/gnome/shell" = {
+        disable-user-extensions = false;
+        enabled-extensions = with pkgs.gnomeExtensions; [
+          blur-my-shell.extensionUuid
+          caffeine.extensionUuid
+          dash-to-dock.extensionUuid
+          vitals.extensionUuid 
+        ];
+      };
+    };
   };
 
 
