@@ -1,5 +1,4 @@
-
-{ config, pkgs, inputs, pkgsUnstable, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
@@ -25,13 +24,9 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
- 
-  # this allows you to access `pkgsUnstable` anywhere in your config
-  _module.args.pkgsUnstable = import inputs.nixpkgs-unstable {
-    inherit (pkgs.stdenv.hostPlatform) system;
-    inherit (config.nixpkgs) config;
-  };
 
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
   
   #Zram
   zramSwap.enable = true;
@@ -44,10 +39,25 @@
     extraPackages32 = with pkgs; [ driversi686Linux.amdvlk];
   };
 
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # Enable the GNOME Desktop Environment.
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "r3z";
+  systemd.services."getty@tty1".enable = false;
+  systemd.services."autovt@tty1".enable = false;
   
+  # Excluding Gnome Application
+  environment.gnome.excludePackages = (with pkgs; [
+    atomix # puzzle game
+    cheese # webcam tool
+    epiphany # web browser
+    geary # email reader
+    hitori # sudoku game
+    iagno # go game
+    tali # poker game
+    totem # video player
+  ]);
   
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -143,12 +153,12 @@
     zotero
     telegram-desktop
     vlc
-    pkgs.temurin-jre-bin-17
-    pkgsUnstable.android-studio
-    pkgsUnstable.jetbrains.phpstorm
-    pkgsUnstable.jetbrains.jdk
-    pkgsUnstable.jetbrains.goland
-    pkgsUnstable.jetbrains.datagrip
+    #pkgs.temurin-jre-bin-17
+    #pkgsUnstable.android-studio
+    #pkgsUnstable.jetbrains.phpstorm
+    #pkgsUnstable.jetbrains.jdk
+    #pkgsUnstable.jetbrains.goland
+    #pkgsUnstable.jetbrains.datagrip
   ];
 
 
