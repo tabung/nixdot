@@ -91,7 +91,7 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -153,12 +153,12 @@
     zotero
     telegram-desktop
     vlc
-    #pkgs.temurin-jre-bin-17
-    #pkgsUnstable.android-studio
-    #pkgsUnstable.jetbrains.phpstorm
-    #pkgsUnstable.jetbrains.jdk
-    #pkgsUnstable.jetbrains.goland
-    #pkgsUnstable.jetbrains.datagrip
+    temurin-jre-bin-17
+    android-studio
+    jetbrains.phpstorm
+    jetbrains.jdk
+    jetbrains.goland
+    jetbrains.datagrip
   ];
 
 

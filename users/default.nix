@@ -25,6 +25,7 @@
     gnomeExtensions.dash-to-dock  
     gnomeExtensions.vitals
     gnomeExtensions.caffeine
+    gnomeExtensions.appindicator
   ];
 
   programs.git = {
