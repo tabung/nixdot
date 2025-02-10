@@ -1,4 +1,8 @@
-{ config, pkgs, inputs, ... }:
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running ‘nixos-help’).
+
+{ config, pkgs, ... }:
 
 {
   imports =
@@ -9,15 +13,16 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "devzc0de"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
-
-  # Wiregurad
-  networking.wireguard.enable = true;
 
   # Set your time zone.
   time.timeZone = "Asia/Jakarta";
@@ -25,10 +30,7 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  
-  #Zram
+    #Zram
   zramSwap.enable = true;
 
   # VGA
@@ -39,13 +41,13 @@
     extraPackages32 = with pkgs; [ driversi686Linux.amdvlk];
   };
 
+
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "r3z";
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
   
   # Excluding Gnome Application
   environment.gnome.excludePackages = (with pkgs; [
@@ -58,15 +60,9 @@
     tali # poker game
     totem # video player
   ]);
-  
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
+  # Wayland
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Power Manjement
   services.power-profiles-daemon.enable = false;
@@ -90,6 +86,15 @@
     };
   };
 
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
+
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -99,7 +104,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    jack.enable = true;
+    #jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -115,53 +120,61 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.r3z = {
     isNormalUser = true;
-    description = "Rezky Yuranda";
+    description = "Rezky";
     shell = pkgs.zsh;
-    extraGroups = ["audio" "video" "disk" "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" "video" "disk" ];
     packages = with pkgs; [
     #  thunderbird
     ];
   };
 
-  # Install Apps
+  # Enable automatic login for the user.
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "r3z";
+
+  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+  systemd.services."getty@tty1".enable = false;
+  systemd.services."autovt@tty1".enable = false;
+
+  # Install firefox.
   programs.firefox.enable = true;
   programs.zsh.enable = true;
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Wayland
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
   # List packages installed in system profile. To search, run:
+  # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget
     vim
-    git
-    go
-    nodejs
-    jetbrains-mono
-    libreoffice
-    hunspell
-    hunspellDicts.en_US
-    zotero
-    telegram-desktop
-    vlc
-    temurin-jre-bin-17
-    android-studio
-    jetbrains.phpstorm
-    jetbrains.jdk
-    jetbrains.goland
-    jetbrains.datagrip
+    wget
   ];
 
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
 
+  # List services that you want to enable:
+
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
   nix.settings.experimental-features = ["nix-command" "flakes"];
 }
