@@ -122,7 +122,7 @@
     isNormalUser = true;
     description = "Rezky";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "audio" "video" "disk" ];
+    extraGroups = ["libvirtd" "networkmanager" "wheel" "audio" "video" "disk" ];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -139,6 +139,10 @@
   # Install firefox.
   programs.firefox.enable = true;
   programs.zsh.enable = true;
+  programs.virt-manager.enable = true;
+  users.groups.libvirtd.members = ["your_username"];
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -148,6 +152,12 @@
   environment.systemPackages = with pkgs; [
     vim
     wget
+    go
+    nodejs
+    wineWowPackages.stable
+    winetricks
+    wineWowPackages.waylandFull
+    qemu
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
